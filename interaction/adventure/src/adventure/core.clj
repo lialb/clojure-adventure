@@ -290,6 +290,17 @@
               )
           )       
         )
+
+        (def init-map                    
+          (assoc
+            init-map (player :location)
+              (assoc (init-map (player :location)) :contents
+              (conj
+                ((init-map (player :location)) :contents) :id
+                )
+              )
+          )       
+        )
         (println "The red chest has turned into an ID! You should pick it up!")
         )
     (= (compare item "orange-key") 0)
@@ -327,6 +338,17 @@
             (assoc (init-map (player :location)) :usableItems
             (conj
               ((init-map (player :location)) :usableItems) "orange-key"
+              )
+            )
+        )       
+      )
+
+      (def init-map                    
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :contents
+            (conj
+              ((init-map (player :location)) :contents) :orange-key
               )
             )
         )       
@@ -454,20 +476,12 @@
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
   ;(useItem "redKey")
-  (println
-    ((init-map :gate)  :usableItems)
-    
-    
-  )
 
-  (updateLocation "gate")
-  (addToInventory "orange-key")
-  (useItem "orange-key")
-  (println
-    ((init-map :gate)  :usableItems)
-    
-    
-  )
+  (updateLocation "storage")
+  (addToInventory "red-key")
+  (useItem "red-key")
+  (println (init-map (player :location)))
+  (grabItem "grab id")
   ;(println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
   ;(loop []
    ; (print "> ") (flush)
