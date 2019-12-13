@@ -5,7 +5,6 @@
   { :location :foyer
     :inventory #{}
     :hp 10
-    :lives 1
     :seen #{}})
 
 (defn reduceHealth [dmg]
@@ -19,6 +18,10 @@
   (def player 
     (assoc player :inventory (disj (player :inventory) item))
     )
+)
+
+(defn quitGame []
+  (System/exit 0)
 )
 
 (defn restoreHealth [health]
@@ -40,11 +43,11 @@
   [& args]
   ;(println "Hello, World!")
   (printPlayer)
-  (reduceHealth 5)
-  (addToInventory "key")
-  (printPlayer)
-  (removeFromInventory "key")
-  (printPlayer)
+  ;(reduceHealth 5)
+  ;(addToInventory "key")
+  ;(printPlayer)
+  ;(removeFromInventory "key")
+  ;(printPlayer)
   )
 
-(-main)
+;(-main)
