@@ -34,8 +34,7 @@
                  :east :cafeteria } 
            :contents #{}}
    :sauna {:desc "You step into the sauana. It is blazingly hot due to climate change. You lose 3 hp"
-              :title "a really hot room"
-              :dir {:north :cell}
+              :title "a really hot room" :dir {:north :cell}
               :contents #{}}
    :cafeteria {:desc "You step into the cafeteria. It's a drab mess hall; rows of tables and benches litter the room. You could almost smell the terrible food that was once served here. Walking along the halls, you see a fridge."
               :title "the cafeteria"
@@ -159,16 +158,10 @@
      :prison    3 
      :pit       999999999})
 
-(defn look [room]
-  (println ((init-map room) :desc)) 
-)
-
 (defn test []
   (println
     ((init-map :vault
     )  :dir)
-    
-    
   )  
 )
 
@@ -182,13 +175,13 @@
     (println ((init-map (player :location)) :desc)) 
 )
 
-(defn getTitle [newRoom]
+(defn printTitle [newRoom]
   (println (str "You are in "((init-map (keyword newRoom)) :title))
-
   )
 )
 
 (defn reduceHealth [dmg]
+  "Damage a player by dmg amount. May kill the player!"
   (def player (update player :hp - dmg))
   (if (<= (player :hp) 0)
     (do (println "Game Over! You Died :(") (System/exit 0))
@@ -196,8 +189,9 @@
 )
 
 (defn updateLocation [location]
+  "Updates current player location. Also handles all code for what to do when in a new room."
   (def player (update player :location (keyword location) (keyword location))) 
-  (getTitle location)
+  (printTitle location)
   (let [damageDealt (damagingRooms (player :location))]
     (if (not (nil? damageDealt)) (reduceHealth damageDealt)))
 )
@@ -209,36 +203,41 @@
 )
 
 (defn quitGame []
+  "Exits the game, printing before doing so"
   (do (println "Quitting Game")(System/exit 0))
 )
 
 (defn restoreHealth [health]
+  "increases health by health amount"
   (def player (update player :hp + health))
 )
 
 (defn addToInventory [item]
+  "Adds the string item to the player inventory"
   (def player
     (assoc player :inventory (conj (player :inventory) item))
     )
 )
 
 (defn printPlayer []
+  "Prints the current player status"
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
 )
 
 (defn movePlayer
+  "Run with the go command, tries to go that location"
   [command]
   (let [dir (subs command 3)
        newRoom (((init-map (player :location)) :dir) (keyword dir))]
-       ;(println newRoom)))
         (if (nil? newRoom) (println (str "Can't go " dir))
-          (do (updateLocation newRoom) ))))
+          (do (updateLocation newRoom)))))
 
 (defn starts-with?
   [string substr]
   (clojure.string/starts-with? (clojure.string/lower-case string) substr))
 
 (defn parseCommand
+  "Takes in raw input and passes it to the corresponding function"
   [command]
   (let [cleanCommand (clojure.string/lower-case command)]
     (cond
@@ -252,6 +251,7 @@
   "I don't do a whole lot ... yet."
   [& args]
   (loop []
+    (print "> ") (flush)
     (parseCommand (read-line))
     (recur))
   )
