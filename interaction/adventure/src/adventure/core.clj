@@ -98,7 +98,7 @@
               :usableItems #{}}
    :storage {:desc "You look in the room. You see a red chest that looks like it should be opened"
               :title "a room full of what could be interesting stuff"
-              :dir {:east :control
+              :dir {:east :corridor2
                     :south :trash}
               :contents #{:red-chest}
               :usableItems #{"red-key"}}
@@ -210,7 +210,7 @@
   (println (str "You can go: " (keysToList (keys ((init-map (keyword room)) :dir))))))
 
 (defn printaAvailableItems [room]
-  (println (str "You can pick up: " (keysToList (keys ((init-map (keyword room)) :contents))))))
+  (println (str "You can pick up: " ((init-map (keyword room)) :contents))))
 
 (defn printItems [room]
   (let [items ((init-map (keyword room)) :contents)]
@@ -291,6 +291,17 @@
               )
           )       
         )
+
+        (def init-map                    
+          (assoc
+            init-map (player :location)
+              (assoc (init-map (player :location)) :contents
+              (conj
+                ((init-map (player :location)) :contents) :id
+                )
+              )
+          )       
+        )
         (println "The red chest has turned into an ID! You should pick it up!")
         )
     (= (compare item "orange-key") 0)
@@ -306,6 +317,19 @@
             )
         )       
       )
+
+      (def init-map
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :dir
+            (assoc 
+              ((init-map (player :location)) :dir) :south :debriefing
+              )
+            )
+        ) 
+        
+      )
+
       (println "You unlock the locked door and can now go south!")
       )
     (= (compare item "green-key") 0)
@@ -332,6 +356,17 @@
             )
         )       
       )
+
+      (def init-map                    
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :contents
+            (conj
+              ((init-map (player :location)) :contents) :orange-key
+              )
+            )
+        )       
+      )
       (println "The green chest has turned into an orange key! You should pick it up!")
       )
     (= (compare item "id") 0)
@@ -347,6 +382,19 @@
             )
         )       
       )
+      
+      (def init-map
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :dir
+            (assoc 
+              ((init-map (player :location)) :dir) :south :helicopter
+              )
+            )
+        ) 
+        
+      )
+
       (println "You hear a click somewhere in the distance!")
       )
   )  
@@ -413,9 +461,13 @@
 (defn grabItem
   [command]
   (let [item (subs command (count "grab "))]
-    (if (contains? ((init-map (player :location)) :contents) (keyword item))
-      (do (println (str "You grabbed " item)) (addToInventory item))
-      (println (str "You can't grab " item)))))
+    (cond (= (compare item "red-chest") (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "green-chest")) (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "control-panel")) (println "The control panel is bolted to the floor. Maybe you should use something here.")
+          :else 
+          (if (contains? ((init-map (player :location)) :contents) (keyword item))
+            (do (println (str "You grabbed " item)) (addToInventory item))
+            (println (str "You can't grab " item)))))))
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
@@ -460,9 +512,9 @@
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
   ;(useItem "redKey")
-  (println
-    ((init-map :gate)  :usableItems)
-  )
+  ; (println
+  ;   ((init-map :gate)  :usableItems)
+  ; )
 
   ; (updateLocation "gate")
   ; (addToInventory "orange-key")
