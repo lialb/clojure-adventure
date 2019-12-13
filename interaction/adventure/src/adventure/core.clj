@@ -8,23 +8,23 @@
            :name "An apple" }
   :orange {:desc "A mandarin orange. It doesn't speak Chinese though."
            :name "An orange"}
-  :redKey {:desc "A crimson key that looks very useful..."
+  :red-key {:desc "A crimson key that looks very useful..."
            :name "A red key"}
-  :redChest {:desc "A chest that is red in color. May contain something cool... "
+  :red-chest {:desc "A chest that is red in color. May contain something cool... "
              :name "A red chest"}
-  :ID {:desc "An ID card that has the picture of an accomplished looking old guy"
+  :id {:desc "An ID card that has the picture of an accomplished looking old guy"
        :name "An ID card"}
-  :greenKey {:desc "A green key brimming with greeness. Seems very useful..."
+  :green-key {:desc "A green key brimming with greeness. Seems very useful..."
              :name "A green key"}
-  :greenChest {:desc "A green chest that is locked. I wonder what can open it..."
+  :green-chest {:desc "A green chest that is locked. I wonder what can open it..."
                :name "A chest that is green"}
-  :orangeKey {:desc "An orange key that looks very useful..."
+  :orange-key {:desc "An orange key that looks very useful..."
               :name "An orange key"}
   :door {:desc "A big locked door that leads somewhere useful... maybe"
          :name "A locked door"}
-  :blueKey {:desc "A blue key that may or may not do something..."
+  :blue-key {:desc "A blue key that may or may not do something..."
             :name "A blue key"}
-  :controlPanel {:desc "A control panel that seems to be operated with some type of authorization"
+  :control-panel {:desc "A control panel that seems to be operated with some type of authorization"
                  :name "A control panel"}
   })
 
@@ -57,14 +57,14 @@
               :dir {:west :cafeteria
                     :south :lounge
                     :east :hallway}
-              :contents #{:redKey}
+              :contents #{:red-key}
               :usableItems #{}}
    :lounge {:desc "You walk into the lounge. You see remnants of the once failed feng shui of mediocrity. Wow, you thought. You probably could've designed this room better."
               :title "a really REALLY boring room"
               :dir {:north :armory
                     :south :control
                     :east :security}
-              :contents #{}
+              :contents #{:orange}
               :usableItems #{}}
    :security {:desc "You walk into a dark room. The lights go on. You see hundreds of monitors displaying CCTV of daily human interaction. Taking steps in, you somehow trip off the old security systems. You see a gatling descend from the ceiling. You receive 5 damage from getting shot. Huh, good thing the gatling gun ran out of bullets."
               :title "a dark room filled with monitors monitoring the daily lives of millions"
@@ -77,8 +77,8 @@
                     :east :corridor
                     :west :corridor2
                     :south :corridor3}
-              :contents #{:controlPanel}
-              :usableItems #{:ID}}
+              :contents #{:control-panel}
+              :usableItems #{"ID"}}
    :corridor {:desc "You walk in to a corridor. Nothing much but a passageway"
               :title "a passageway that serves its purpose"
               :dir {:west :control
@@ -96,12 +96,12 @@
                     :east :control}
               :contents #{}
               :usableItems #{}}
-   :storage {:desc "You look in the room. You see a chest that looks like it should be opened"
+   :storage {:desc "You look in the room. You see a red chest that looks like it should be opened"
               :title "a room full of what could be interesting stuff"
               :dir {:east :control
                     :south :trash}
-              :contents #{:chest}
-              :usableItems #{:redKey}}
+              :contents #{:red-chest}
+              :usableItems #{"redKey"}}
    :trash {:desc "You walk into a room, filled with flies and rats. This is where the human waste and perfectly good food go. You vomit, taking 2 damage"
               :title "a room waste the human waste goes"
               :dir {:north :storage}
@@ -117,14 +117,14 @@
    :general {:desc "You walk into a room decorated with baroque style with a rustic finish. Beautiful tapestry and paintings uniformly scatter the wall. You are amazed at the splendor that humans are capable of. This is where the leader must reside."
               :title "a beautiful room filled with remnants of the past leaders"
               :dir {:east :corridor3}
-              :contents #{:greenKey}
+              :contents #{"greenKey"}
               :usableItems #{}}
    :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk "
               :title "a room full of supplies and storage units"
               :dir {:west :corridor3
                     :east :chem}
               :contents #{:safe}
-              :usableItems #{"greenKey"}}
+              :usableItems #{:green-key}}
    :chem {:desc "You walk into what seems like an old lab. There's broken glass from beakers and burets, literring the ground with shards. You carefully navigate the sharp glass around the room. You bump into a vile full of liquid, and it splashes on you. You take 4 damage from acid. You cry a little bit and leave."
               :title "a room where biological tests are conducted"
               :dir {:west :supplies}
@@ -142,7 +142,7 @@
                     :east :prison
                     :south :debriefing}
               :contents #{:door}
-              :usableItems #{:orangeKey}}
+              :usableItems #{"orangeKey"}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "a room with cells... and more"
               :dir {:west :gate}
@@ -153,7 +153,7 @@
               :dir {:north :gate
                     :south :pit
                     :east :barracks}
-              :contents #{:blueKey}
+              :contents #{:blue-key}
               :usableItems #{}}
    :barracks {:desc "You walk into a room filled with many beds, duffel bags, and more. This is where they must've lived you thought. It doesn't look appealing to live here, cramped and sweaty."
               :title "a room with many beds and lost personal belongings"
@@ -200,9 +200,10 @@
 )
 
 (defn keysToList [keys_]
-  (let [castName (name (first keys_))]
-    (if (= (count keys_) 1) castName
-      (str castName ", " (keysToList (rest keys_))))))
+  (if (empty? keys_) ""
+    (let [castName (name (first keys_))]
+      (if (= (count keys_) 1) castName
+        (str castName ", " (keysToList (rest keys_)))))))
 
 (defn printTitle [room]
   (println (str "You are in "((init-map (keyword room)) :title))))
@@ -265,7 +266,7 @@
 
 (defn useItemSpecific [item]
   (cond 
-    (= (compare item "redkey") 0)
+    (= (compare item "red-key") 0)
       (do 
         (def init-map                    
           ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
@@ -343,7 +344,10 @@
 
 (defn printPlayer []
   "Prints the current player status"
-  (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
+  (println (str "Player is currently has " 
+                (player :hp) " hp and has [" 
+                (keysToList (player :inventory)) "] in their inventory and is currently at " 
+                (name (player :location)) "."))
 )
 
 (defn movePlayer
@@ -353,6 +357,13 @@
        newRoom (((init-map (player :location)) :dir) (keyword dir))]
         (if (nil? newRoom) (println (str "Can't go " dir))
           (do (updateLocation newRoom)))))
+
+(defn grabItem
+  [command]
+  (let [item (subs command (count "grab "))]
+    (if (contains? ((init-map (player :location)) :contents) (keyword item))
+      (do (println (str "You grabbed " item)) (addToInventory item))
+      (println (str "You can't grab " item)))))
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
@@ -376,9 +387,10 @@
     (cond
       (starts-with? command "help") (helpMenu)
       (starts-with? command "status") (printPlayer)
-      (starts-with? command "go") (movePlayer cleanCommand)
+      (starts-with? command "go ") (movePlayer cleanCommand)
       (starts-with? command "look") (look)
       (starts-with? command "tick") (printTick)
+      (starts-with? command "grab ") (grabItem cleanCommand)
       (starts-with? command "quit") (quitGame)
       (starts-with? command "hp") (printHealth)
       :else (println (str "I didn't understand: " command)))))
