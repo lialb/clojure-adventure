@@ -461,13 +461,13 @@
 (defn grabItem
   [command]
   (let [item (subs command (count "grab "))]
-    (cond (= (compare item "red-chest") (println "This chest is heavy. Maybe you can open it")
-          (= (compare item "green-chest")) (println "This chest is heavy. Maybe you can open it")
-          (= (compare item "control-panel")) (println "The control panel is bolted to the floor. Maybe you should use something here.")
+    (cond (= (compare item "red-chest") 0) (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "green-chest") 0) (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "control-panel") 0) (println "The control panel is bolted to the floor. Maybe you should use something here.")
           :else 
           (if (contains? ((init-map (player :location)) :contents) (keyword item))
             (do (println (str "You grabbed " item)) (addToInventory item))
-            (println (str "You can't grab " item)))))))
+            (println (str "You can't grab " item))))))
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
