@@ -316,6 +316,19 @@
             )
         )       
       )
+
+      (def init-map
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :dir
+            (assoc 
+              ((init-map (player :location)) :dir) :south :debriefing
+              )
+            )
+        ) 
+        
+      )
+
       (println "You unlock the locked door and can now go south!")
       )
     (= (compare item "green-key") 0)
@@ -368,6 +381,19 @@
             )
         )       
       )
+      
+      (def init-map
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :dir
+            (assoc 
+              ((init-map (player :location)) :dir) :south :helicopter
+              )
+            )
+        ) 
+        
+      )
+
       (println "You hear a click somewhere in the distance!")
       )
   )  
