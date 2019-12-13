@@ -78,7 +78,7 @@
                     :west :corridor2
                     :south :corridor3}
               :contents #{:control-panel}
-              :usableItems #{"ID"}}
+              :usableItems #{"id"}}
    :corridor {:desc "You walk in to a corridor. Nothing much but a passageway"
               :title "a passageway that serves its purpose"
               :dir {:west :control
@@ -142,7 +142,7 @@
                     :east :prison
                     :south :debriefing}
               :contents #{:door}
-              :usableItems #{"orangeKey"}}
+              :usableItems #{"orange-key"}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "a room with cells... and more"
               :dir {:west :gate}
@@ -292,10 +292,62 @@
         )
         (println "The red chest has turned into an ID! You should pick it up!")
         )
-    (= (compare item "orangeKey") 0)
-      (do)
-    (= (compare item "greenkey") 0)
-      (do)
+    (= (compare item "orange-key") 0)
+    (do 
+      (def init-map                    
+        ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :usableItems
+            (disj 
+              ((init-map (player :location)) :usableItems) item
+              )
+            )
+        )       
+      )
+      (println "You unlock the locked door and can now go south!")
+      )
+    (= (compare item "green-key") 0)
+    (do 
+      (def init-map                    
+        ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :usableItems
+            (disj 
+              ((init-map (player :location)) :usableItems) item
+              )
+            )
+        )       
+      )
+
+      (def init-map                    
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :usableItems
+            (conj
+              ((init-map (player :location)) :usableItems) "orange-key"
+              )
+            )
+        )       
+      )
+      (println "The green chest has turned into an orange key! You should pick it up!")
+      )
+    (= (compare item "id") 0)
+    (do 
+      (def init-map                    
+        ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
+        (assoc
+          init-map (player :location)
+            (assoc (init-map (player :location)) :usableItems
+            (disj 
+              ((init-map (player :location)) :usableItems) item
+              )
+            )
+        )       
+      )
+      (println "You hear a click somewhere in the distance!")
+      )
   )  
   
 )
@@ -403,16 +455,16 @@
   ;   (((init-map (player :location)) :dir) :south))
   ;(useItem "redKey")
   (println
-    ((init-map :storage)  :usableItems)
+    ((init-map :gate)  :usableItems)
     
     
   )
 
-  (updateLocation "storage")
-  (addToInventory "redkey")
-  (useItem "redey")
+  (updateLocation "gate")
+  (addToInventory "orange-key")
+  (useItem "orange-key")
   (println
-    ((init-map :storage)  :usableItems)
+    ((init-map :gate)  :usableItems)
     
     
   )
