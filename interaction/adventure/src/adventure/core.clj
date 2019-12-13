@@ -98,7 +98,7 @@
               :usableItems #{}}
    :storage {:desc "You look in the room. You see a red chest that looks like it should be opened"
               :title "a room full of what could be interesting stuff"
-              :dir {:east :control
+              :dir {:east :corridor2
                     :south :trash}
               :contents #{:red-chest}
               :usableItems #{"red-key"}}
@@ -139,8 +139,7 @@
    :gate {:desc "You walk into a dimly lit room. There're two doors: a thick looking one, and a normal one that you've seen before."
               :title "a relatively uninteresting room with a gate"
               :dir {:west :hallway
-                    :east :prison
-                    :south :debriefing}
+                    :east :prison}
               :contents #{:door}
               :usableItems #{"orange-key"}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
@@ -164,8 +163,7 @@
    :vault {:desc "You walk into the room and see a big massive steel reinforced door. You can almost smell fresh air..."
               :title "a room that has a big lock"
               :dir {:west :pit
-                    :north :barracks
-                    :south :helicopter}
+                    :north :barracks}
               :contents #{}
               :usableItems #{}}
    :helicopter {:desc "You have made it to a helicopter pad! You somehow made it this far, and can finally smell the fresh boiling air. You take the helicopter and fly away."
@@ -210,6 +208,9 @@
 
 (defn printAvailableDirs [room]
   (println (str "You can go: " (keysToList (keys ((init-map (keyword room)) :dir))))))
+
+(defn printaAvailableItems [room]
+  (println (str "You can pick up: " ((init-map (keyword room)) :contents))))
 
 (defn printItems [room]
   (let [items ((init-map (keyword room)) :contents)]
@@ -430,7 +431,7 @@
 
 (defn quitGame []
   "Exits the game, printing before doing so"
-  (do (println "Quitting Game :(")(System/exit 0))
+  (do (println "Quitting Game :(") (System/exit 0))
 )
 
 
@@ -460,14 +461,19 @@
 (defn grabItem
   [command]
   (let [item (subs command (count "grab "))]
-    (if (contains? ((init-map (player :location)) :contents) (keyword item))
-      (do (println (str "You grabbed " item)) (addToInventory item))
-      (println (str "You can't grab " item)))))
+    (cond (= (compare item "red-chest") (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "green-chest")) (println "This chest is heavy. Maybe you can open it")
+          (= (compare item "control-panel")) (println "The control panel is bolted to the floor. Maybe you should use something here.")
+          :else 
+          (if (contains? ((init-map (player :location)) :contents) (keyword item))
+            (do (println (str "You grabbed " item)) (addToInventory item))
+            (println (str "You can't grab " item)))))))
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
-  (println "directions        : prints your possible directions that you can go")
-  (println "status            : prints out your current status")
+  (println "status            : prints out your current hp, inventory, and current location")
+  (println "directions        : prints your possible directions that you can go from the current room")
+  (println "items             : prints the current items in the room")
   (println "hp                : prints your current hitpoints (hp)")
   (println "look              : prints the description of the room")
   (println "grab <item>       : takes an item in the room")
@@ -494,6 +500,7 @@
       (starts-with? command "quit") (quitGame)
       (starts-with? command "hp") (printHealth)
       (starts-with? command "directions") (printAvailableDirs (player :location))
+      (starts-with? command "items") (printaAvailableItems (player :location))
       (starts-with? command "use ") (useItem cleanCommand)
       
       :else (println (str "I didn't understand: " command)))))
@@ -505,6 +512,9 @@
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
   ;(useItem "redKey")
+  ; (println
+  ;   ((init-map :gate)  :usableItems)
+  ; )
 
   ; (updateLocation "gate")
   ; (addToInventory "orange-key")
