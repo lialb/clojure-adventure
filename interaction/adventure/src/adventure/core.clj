@@ -238,6 +238,9 @@
   (def player (update player :tick inc))
   (let [damageDealt (damagingRooms (player :location))]
     (if (not (nil? damageDealt)) (reduceHealth damageDealt)))
+  (if (= (compare (name location) (name :helicopter)) 0)
+    (do (println "You have won the game! Congratulations! :)") (System/exit 0))
+  )
 )
 
 (defn removeFromInventory [item]
