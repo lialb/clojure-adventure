@@ -114,7 +114,7 @@
               :contents #{}}
    :vault {:desc "You walk into the room and see a big massive steel reinforced door. You can almost smell fresh air..."
               :title "A room that has a big lock"
-              :dir {:west :pit}
+              :dir {:west :pit
                     :north :barracks
                     :south :helicopter}
               :contents #{}}
