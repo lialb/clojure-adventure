@@ -203,7 +203,7 @@
 
 (defn quitGame []
   "Exits the game, printing before doing so"
-  (do (println "Quitting Game")(System/exit 0))
+  (do (println "Quitting Game :(")(System/exit 0))
 )
 
 (defn restoreHealth [health]
@@ -254,6 +254,8 @@
       (starts-with? command "status") (printPlayer)
       (starts-with? command "go") (movePlayer cleanCommand)
       (starts-with? command "look") (look)
+      (starts-with? command "tick") (printTick)
+      (starts-with? command "quit") (quitGame)
       :else (println (str "I didn't understand: " command)))))
 
 (defn -main
