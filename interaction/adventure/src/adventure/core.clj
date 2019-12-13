@@ -150,9 +150,6 @@
               :contents #{}}
    })
 
-(defn look [room]
-  (println ((init-map room) :desc)) 
-)
 
 (defn test []
   (println
@@ -168,6 +165,9 @@
     :inventory #{}
     :hp 10
     :seen #{}})
+(defn look []
+    (println ((init-map (player :location)) :desc)) 
+)
 
 (defn updateLocation [location]
   (def player (update player :location (keyword location) (keyword location))) 
@@ -224,7 +224,8 @@
   (printPlayer)
   (updateLocation "armory")
   (printPlayer)
-  (println (player :location))
+  ;(println (player :location))
+  (look)
   ;(reduceHealth 5)
   ;(addToInventory "key")
   ;(parseCommand "help me")
