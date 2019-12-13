@@ -169,10 +169,21 @@
     (println ((init-map (player :location)) :desc)) 
 )
 
-(defn printTitle [newRoom]
-  (println (str "You are in "((init-map (keyword newRoom)) :title))
-  )
-)
+(defn keysToList [keys_]
+  (let [castName (name (first keys_))]
+    (if (= (count keys_) 1) castName
+      (str castName ", " (keysToList (rest keys_))))))
+
+(defn printTitle [room]
+  (println (str "You are in "((init-map (keyword room)) :title))))
+
+(defn printAvailableDirs [room]
+  (println (str "You can go: " (keysToList (keys ((init-map (keyword room)) :dir))))))
+
+(defn printItems [room]
+  (let [items ((init-map (keyword room)) :contents)]
+        (if (not (= (count items) 0))
+          (println (str "You can grab: " (keysToList items))))))
 
 (defn printTick []
   (println "You have made " (player :tick) " moves.")
@@ -190,6 +201,8 @@
   "Updates current player location. Also handles all code for what to do when in a new room."
   (def player (update player :location (keyword location) (keyword location))) 
   (printTitle location)
+  (printAvailableDirs location)
+  (printItems location)
   (def player (update player :tick inc))
   (let [damageDealt (damagingRooms (player :location))]
     (if (not (nil? damageDealt)) (reduceHealth damageDealt)))
