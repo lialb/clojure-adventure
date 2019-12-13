@@ -149,6 +149,15 @@
               :contents #{}}
    })
 
+(def damagingRooms
+  {  :sauna     3
+     :bathroom  3
+     :trash     2
+     :security  5
+     :chem      4
+     :prison    3 
+     :pit       999999999})
+
 (def player
   { :location :cell
     :inventory #{}
