@@ -149,7 +149,7 @@
 )
 
 (defn quitGame []
-  (System/exit 0)
+  (do (println "Quitting Game")(System/exit 0))
 )
 
 (defn restoreHealth [health]
@@ -166,17 +166,34 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory."))
 )
 
+(defn starts-with?
+  [string substr]
+  (clojure.string/starts-with? (clojure.string/lower-case string) substr))
+
+(defn parseCommand
+  [command]
+  (cond
+    (starts-with? command "help") (println "You asked for help!")
+    (starts-with? command "quit") (quitGame)
+    :else (println "You didn't ask for help!")  
+  ))
+
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   ;(println "Hello, World!")
   (printPlayer)
-  ;(reduceHealth 5)
-  ;(addToInventory "key")
+
+  (reduceHealth 5)
+  (addToInventory "key")
+  ;(parseCommand "help me")
   ;(printPlayer)
   ;(removeFromInventory "key")
   ;(printPlayer)
-  (look :security)
+
+  (parseCommand (read-line))
+
   )
 
 (-main)
