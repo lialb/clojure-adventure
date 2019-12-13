@@ -164,7 +164,7 @@
 )
 
 (def player
-  { :location :foyer
+  { :location :cell
     :inventory #{}
     :hp 10
     :seen #{}})
@@ -172,7 +172,6 @@
 (defn updateLocation [location]
   (def player (update player :location (keyword location) (keyword location))) 
 )
-
 (defn reduceHealth [dmg]
   (def player (update player :hp - dmg))
   (if (<= (player :hp) 0)
@@ -204,22 +203,37 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
 )
 
+(defn movePlayer
+  [command]
+  (let [dir (subs command 3)
+       newRoom (((init-map (player :location)) :dir) (keyword dir))]
+       ;(println newRoom)))
+        (if (nil? newRoom) (println (str "Can't go " dir))
+          (updateLocation newRoom))))
+
 (defn starts-with?
   [string substr]
   (clojure.string/starts-with? (clojure.string/lower-case string) substr))
 
 (defn parseCommand
   [command]
-  (cond
-    (starts-with? command "help") (println "You asked for help!")
-    (starts-with? command "quit") (quitGame)
-    :else (println "You didn't ask for help!")  
-  ))
-
+  (let [cleanCommand (clojure.string/lower-case command)]
+    (cond
+      (starts-with? command "help") (println "You asked for help!")
+      (starts-with? command "status") (printPlayer)
+      (starts-with? command "go") (movePlayer cleanCommand)
+      :else (println (str "I didn't understand: " command)))))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
+
+  ; (println 
+  ;   (((init-map (player :location)) :dir) :south))
+  (loop []
+    (println (player :location))
+    (parseCommand (read-line))
+    (recur))
   ;(println "Hello, World!")
   (printPlayer)
   (updateLocation "armory")
