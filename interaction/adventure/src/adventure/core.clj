@@ -142,7 +142,7 @@
                     :east :prison
                     :south :debriefing}
               :contents #{:door}
-              :usableItems #{"orangeKey"}}
+              :usableItems #{"orange-key"}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "a room with cells... and more"
               :dir {:west :gate}
