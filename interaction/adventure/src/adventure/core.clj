@@ -150,6 +150,18 @@
               :contents #{}}
    })
 
+(def damagingRooms
+  {  :sauna     3
+     :bathroom  3
+     :trash     2
+     :security  5
+     :chem      4
+     :prison    3 
+     :pit       999999999})
+
+(defn look [room]
+  (println ((init-map room) :desc)) 
+)
 
 (defn test []
   (println
@@ -165,6 +177,7 @@
     :inventory #{}
     :hp 10
     :seen #{}})
+
 (defn look []
     (println ((init-map (player :location)) :desc)) 
 )
@@ -175,15 +188,18 @@
   )
 )
 
-(defn updateLocation [location]
-  (def player (update player :location (keyword location) (keyword location))) 
-  (getTitle location)
-)
 (defn reduceHealth [dmg]
   (def player (update player :hp - dmg))
   (if (<= (player :hp) 0)
     (do (println "Game Over! You Died :(") (System/exit 0))
   )
+)
+
+(defn updateLocation [location]
+  (def player (update player :location (keyword location) (keyword location))) 
+  (getTitle location)
+  (let [damageDealt (damagingRooms (player :location))]
+    (if (not (nil? damageDealt)) (reduceHealth damageDealt)))
 )
 
 (defn removeFromInventory [item]
@@ -210,8 +226,6 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
 )
 
-
-
 (defn movePlayer
   [command]
   (let [dir (subs command 3)
@@ -237,28 +251,9 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (getTitle "sauna")
-  ; (println 
-  ;   (((init-map (player :location)) :dir) :south))
   (loop []
-    ;(println (player :location))
     (parseCommand (read-line))
     (recur))
-  ;(println "Hello, World!")
-  (printPlayer)
-  (updateLocation "armory")
-  (printPlayer)
-  ;(println (player :location))
-  (look)
-  ;(reduceHealth 5)
-  ;(addToInventory "key")
-  ;(parseCommand "help me")
-  ;(printPlayer)
-  ;(removeFromInventory "key")
-  ;(printPlayer)
-  ;(test)
-  ;(parseCommand (read-line))
-
   )
 
 (-main)
