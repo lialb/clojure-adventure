@@ -524,7 +524,7 @@
     
     
   )
-  (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
+  (println "Welcome to our clojure adventure game!\n\nYou are in " ((init-map (player :location)) :title)"\n\n" ((init-map (player :location)) :desc) "\n\nType the command 'help' to get started!")
   (loop []
    (print "> ") (flush)
     (parseCommand (read-line))
