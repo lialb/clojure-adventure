@@ -220,6 +220,16 @@
         (if (nil? newRoom) (println (str "Can't go " dir))
           (do (updateLocation newRoom) ))))
 
+(defn helpMenu []
+  (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
+  (println "look              : prints the description of the room")
+  (println "take <item>       : takes an item in the room")
+  (println "use <item>        : uses an item")
+  (println "inventory         : prints out your current inventory")
+  (println "tick              : prints out number of moves you have made")
+  (println "quit              : quits the game")
+  )
+
 (defn starts-with?
   [string substr]
   (clojure.string/starts-with? (clojure.string/lower-case string) substr))
@@ -228,7 +238,7 @@
   [command]
   (let [cleanCommand (clojure.string/lower-case command)]
     (cond
-      (starts-with? command "help") (println "You asked for help!")
+      (starts-with? command "help") (helpMenu)
       (starts-with? command "status") (printPlayer)
       (starts-with? command "go") (movePlayer cleanCommand)
       (starts-with? command "look") (look)
