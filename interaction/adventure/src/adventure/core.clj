@@ -51,7 +51,7 @@
               :title "your very generic armory filled with weapons"
               :dir {:west :cafeteria
                     :south :lounge
-                    :east :hallway1}
+                    :east :hallway}
               :contents #{:redKey}}
    :lounge {:desc "You walk into the lounge. You see remnants of the once failed feng shui of mediocrity. Wow, you thought. You probably could've designed this room better."
               :title "a really REALLY boring room"
@@ -85,7 +85,7 @@
                     :east :control}
               :contents #{}}
    :storage {:desc "You look in the room. You see a chest that looks like it should be opened"
-              :title "another boring hallway"
+              :title "a room full of what could be interesting stuff"
               :dir {:east :control
                     :south :trash}
               :contents #{:chest}}
