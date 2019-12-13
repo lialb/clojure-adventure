@@ -199,10 +199,21 @@
     (println ((init-map (player :location)) :desc)) 
 )
 
-(defn printTitle [newRoom]
-  (println (str "You are in "((init-map (keyword newRoom)) :title))
-  )
-)
+(defn keysToList [keys_]
+  (let [castName (name (first keys_))]
+    (if (= (count keys_) 1) castName
+      (str castName ", " (keysToList (rest keys_))))))
+
+(defn printTitle [room]
+  (println (str "You are in "((init-map (keyword room)) :title))))
+
+(defn printAvailableDirs [room]
+  (println (str "You can go: " (keysToList (keys ((init-map (keyword room)) :dir))))))
+
+(defn printItems [room]
+  (let [items ((init-map (keyword room)) :contents)]
+        (if (not (= (count items) 0))
+          (println (str "You can grab: " (keysToList items))))))
 
 (defn printTick []
   (println "You have made " (player :tick) " moves.")
@@ -220,6 +231,8 @@
   "Updates current player location. Also handles all code for what to do when in a new room."
   (def player (update player :location (keyword location) (keyword location))) 
   (printTitle location)
+  (printAvailableDirs location)
+  (printItems location)
   (def player (update player :tick inc))
   (let [damageDealt (damagingRooms (player :location))]
     (if (not (nil? damageDealt)) (reduceHealth damageDealt)))
@@ -231,15 +244,42 @@
     )
 )
 
+(defn restoreHealth [health]
+  "increases health by health amount"
+  (def player (update player :hp + health))
+)
+
+(defn useItem [item]
+  (cond
+    (= (compare item "banana") 0) 
+      (do ;(println "banana")
+        (if (contains? (player :inventory) "banana")
+          (do (println "You eat the banana and heal 1 health!") (restoreHealth 1) (removeFromInventory "banana"))
+          (println "You do not have a banana in your inventory :(")
+          )
+      )   
+    (= (compare item "apple") 0) 
+      (do (println "apple")
+        (if (contains? (player :inventory) "apple")
+        (do (println "You eat the apple and heal 2 health!") (restoreHealth 2) (removeFromInventory "apple"))
+        (println "You do not have a apple in your inventory :(")  
+        )
+        )    
+    (= (compare item "orange") 0) 
+      (do (println "orange")
+        (if (contains? (player :inventory) "orange") 
+          (do (println "You eat the orange and heal 3 health!") (restoreHealth 3) (removeFromInventory "orange"))
+          (println "You do not have a orange in your inventory :(")  
+          )
+      ) 
+    :else (println "rip")
+  )  
+)
 (defn quitGame []
   "Exits the game, printing before doing so"
   (do (println "Quitting Game :(")(System/exit 0))
 )
 
-(defn restoreHealth [health]
-  "increases health by health amount"
-  (def player (update player :hp + health))
-)
 
 (defn addToInventory [item]
   "Adds the string item to the player inventory"
@@ -296,6 +336,7 @@
   ;(getTitle "sauna")
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
+  (useItem "apple1")
   (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
   (loop []
     (print "> ") (flush)
