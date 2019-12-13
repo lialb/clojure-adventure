@@ -169,8 +169,15 @@
     (println ((init-map (player :location)) :desc)) 
 )
 
+(defn getTitle [newRoom]
+  (println (str "You are in "((init-map (keyword newRoom)) :title))
+
+  )
+)
+
 (defn updateLocation [location]
   (def player (update player :location (keyword location) (keyword location))) 
+  (getTitle location)
 )
 (defn reduceHealth [dmg]
   (def player (update player :hp - dmg))
@@ -203,13 +210,15 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
 )
 
+
+
 (defn movePlayer
   [command]
   (let [dir (subs command 3)
        newRoom (((init-map (player :location)) :dir) (keyword dir))]
        ;(println newRoom)))
         (if (nil? newRoom) (println (str "Can't go " dir))
-          (updateLocation newRoom))))
+          (do (updateLocation newRoom) ))))
 
 (defn starts-with?
   [string substr]
@@ -228,11 +237,11 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-
+  (getTitle "sauna")
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
   (loop []
-    (println (player :location))
+    ;(println (player :location))
     (parseCommand (read-line))
     (recur))
   ;(println "Hello, World!")
