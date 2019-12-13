@@ -4,7 +4,7 @@
 (def init-items
  {:banana {:desc "A yellow, long, curved fruit. You should probably peel it before eating."
            :name "A surprisingly unrotten banana" }
-  :banana {:desc "A red piece of fruit. Looks very edible though"
+  :apple {:desc "A red piece of fruit. Looks very edible though"
            :name "An apple" }
   :redKey {:desc "A crimson key that looks very useful..."
            :name "A red key"}
@@ -152,7 +152,6 @@
 
 (defn look [room]
   (println ((init-map room) :desc))
-  
 )
 
 (def player
