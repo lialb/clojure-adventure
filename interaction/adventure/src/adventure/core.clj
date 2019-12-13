@@ -200,9 +200,10 @@
 )
 
 (defn keysToList [keys_]
-  (let [castName (name (first keys_))]
-    (if (= (count keys_) 1) castName
-      (str castName ", " (keysToList (rest keys_))))))
+  (if (empty? keys_) ""
+    (let [castName (name (first keys_))]
+      (if (= (count keys_) 1) castName
+        (str castName ", " (keysToList (rest keys_)))))))
 
 (defn printTitle [room]
   (println (str "You are in "((init-map (keyword room)) :title))))
@@ -259,14 +260,14 @@
           )
       )   
     (= (compare item "apple") 0) 
-      (do (println "apple")
+      (do ;(println "apple")
         (if (contains? (player :inventory) "apple")
         (do (println "You eat the apple and heal 2 health!") (restoreHealth 2) (removeFromInventory "apple"))
         (println "You do not have a apple in your inventory :(")  
         )
         )    
     (= (compare item "orange") 0) 
-      (do (println "orange")
+      (do ;(println "orange")
         (if (contains? (player :inventory) "orange") 
           (do (println "You eat the orange and heal 3 health!") (restoreHealth 3) (removeFromInventory "orange"))
           (println "You do not have a orange in your inventory :(")  
@@ -290,7 +291,10 @@
 
 (defn printPlayer []
   "Prints the current player status"
-  (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
+  (println (str "Player is currently has " 
+                (player :hp) " hp and has [" 
+                (keysToList (player :inventory)) "] in their inventory and is currently at " 
+                (name (player :location)) "."))
 )
 
 (defn movePlayer
@@ -300,6 +304,13 @@
        newRoom (((init-map (player :location)) :dir) (keyword dir))]
         (if (nil? newRoom) (println (str "Can't go " dir))
           (do (updateLocation newRoom)))))
+
+(defn grabItem
+  [command]
+  (let [item (subs command (count "grab "))]
+    (if (contains? ((init-map (player :location)) :contents) (keyword item))
+      (do (println (str "You grabbed " item)) (addToInventory item))
+      (println (str "You can't grab " item)))))
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
@@ -323,9 +334,10 @@
     (cond
       (starts-with? command "help") (helpMenu)
       (starts-with? command "status") (printPlayer)
-      (starts-with? command "go") (movePlayer cleanCommand)
+      (starts-with? command "go ") (movePlayer cleanCommand)
       (starts-with? command "look") (look)
       (starts-with? command "tick") (printTick)
+      (starts-with? command "grab ") (grabItem cleanCommand)
       (starts-with? command "quit") (quitGame)
       (starts-with? command "hp") (printHealth)
       :else (println (str "I didn't understand: " command)))))
@@ -336,7 +348,7 @@
   ;(getTitle "sauna")
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
-  (useItem "apple1")
+  ;(useItem "apple1")
   (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
   (loop []
     (print "> ") (flush)
