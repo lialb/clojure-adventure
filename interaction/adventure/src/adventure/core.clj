@@ -125,8 +125,16 @@
    })
 
 (defn look [room]
-  (println ((init-map room) :desc))
-  
+  (println ((init-map room) :desc)) 
+)
+
+(defn test []
+  (println
+    ((init-map :vault
+    )  :dir)
+    
+    
+  )  
 )
 
 (def player
@@ -134,6 +142,10 @@
     :inventory #{}
     :hp 10
     :seen #{}})
+
+(defn updateLocation [location]
+  (def player (update player :location (keyword location) (keyword location))) 
+)
 
 (defn reduceHealth [dmg]
   (def player (update player :hp - dmg))
@@ -157,13 +169,13 @@
 )
 
 (defn addToInventory [item]
-  (def player 
+  (def player
     (assoc player :inventory (conj (player :inventory) item))
     )
 )
 
 (defn printPlayer []
-  (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory."))
+  (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory and is currently at " (name (player :location)) "."))
 )
 
 (defn starts-with?
@@ -184,15 +196,17 @@
   [& args]
   ;(println "Hello, World!")
   (printPlayer)
-
-  (reduceHealth 5)
-  (addToInventory "key")
+  (updateLocation "armory")
+  (printPlayer)
+  (println (player :location))
+  ;(reduceHealth 5)
+  ;(addToInventory "key")
   ;(parseCommand "help me")
   ;(printPlayer)
   ;(removeFromInventory "key")
   ;(printPlayer)
-
-  (parseCommand (read-line))
+  ;(test)
+  ;(parseCommand (read-line))
 
   )
 
