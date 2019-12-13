@@ -150,11 +150,15 @@
               :contents #{}}
    })
 
+(defn look [room]
+  (println ((init-map room) :desc))
+  
+)
+
 (def player
   { :location :foyer
     :inventory #{}
     :hp 10
-    :lives 1
     :seen #{}})
 
 (defn reduceHealth [dmg]
@@ -168,6 +172,10 @@
   (def player 
     (assoc player :inventory (disj (player :inventory) item))
     )
+)
+
+(defn quitGame []
+  (do (println "Quitting Game")(System/exit 0))
 )
 
 (defn restoreHealth [health]
@@ -184,16 +192,34 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory."))
 )
 
+(defn starts-with?
+  [string substr]
+  (clojure.string/starts-with? (clojure.string/lower-case string) substr))
+
+(defn parseCommand
+  [command]
+  (cond
+    (starts-with? command "help") (println "You asked for help!")
+    (starts-with? command "quit") (quitGame)
+    :else (println "You didn't ask for help!")  
+  ))
+
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   ;(println "Hello, World!")
   (printPlayer)
+
   (reduceHealth 5)
   (addToInventory "key")
-  (printPlayer)
-  (removeFromInventory "key")
-  (printPlayer)
+  ;(parseCommand "help me")
+  ;(printPlayer)
+  ;(removeFromInventory "key")
+  ;(printPlayer)
+
+  (parseCommand (read-line))
+
   )
 
 (-main)
