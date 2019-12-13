@@ -1,6 +1,32 @@
 (ns adventure.core
   (:gen-class))
 
+(def init-items
+ {:banana {:desc "A yellow, long, curved fruit. You should probably peel it before eating."
+           :name "A surprisingly unrotten banana" }
+  :banana {:desc "A red piece of fruit. Looks very edible though"
+           :name "An apple" }
+  :redKey {:desc "A crimson key that looks very useful..."
+           :name "A red key"}
+  :redChest {:desc "A chest that is red in color. May contain something cool... "
+             :name "A red chest"}
+  :ID {:desc "An ID card that has the picture of an accomplished looking old guy"
+       :name "An ID card"}
+  :greenKey {:desc "A green key brimming with greeness. Seems very useful..."
+             :name "A green key"}
+  :greenChest {:desc "A green chest that is locked. I wonder what can open it..."
+               :name "A chest that is green"}
+  :orangeKey {:desc "An orange key that looks very useful..."
+              :name "An orange key"}
+  :door {:desc "A big locked door that leads somewhere useful... maybe"
+         :name "A locked door"}
+  :blueKey {:desc "A blue key that may or may not do something..."
+            :name "A blue key"}
+  :controlPanel {:desc "A control panel that seems to be operated with some type of authorization"
+                 :name "A control panel"}
+  })
+
+
 (def init-map
   {:cell {:desc "You wake up in a dimly lit room. You look at your green hands, shackled to the floor. You remember your space ship being intercepted by the human race's elite SpaceX warships. You sigh, and using your alien strength, easily break out of the chains."
            :title "in the room"
@@ -16,7 +42,7 @@
               :dir {:west :cell
                     :south :bathroom
                     :east :armory}
-              :contents #{:Fridge}}
+              :contents #{:banana}}
    :bathroom {:desc "You open the door labelled with the silhouette of a human man. You walk in ... and the stench hits you HARD. You take 3 psychic damage from a horrible stench. You gag uncontrollably"
               :title "dirty abandoned bathroom"
               :dir {:north :cafeteria}
@@ -26,7 +52,7 @@
               :dir {:west :cafeteria
                     :south :lounge
                     :east :hallway1}
-              :contents #{}}
+              :contents #{:redKey}}
    :lounge {:desc "You walk into the lounge. You see remnants of the once failed feng shui of mediocrity. Wow, you thought. You probably could've designed this room better."
               :title "a really REALLY boring room"
               :dir {:north :armory
@@ -37,13 +63,13 @@
               :title "a dark room filled with monitors monitoring the daily lives of millions"
               :dir {:west :lounge}
               :contents #{}}
-   :control {:desc "You walk into a room filled with desks and computers. You walk around, taking note that of a pedestal in the very center."
+   :control {:desc "You walk into a room filled with desks and computers. You walk around, taking note that of a pedestal with a control panel in the very center."
               :title "a really REALLY boring room"
               :dir {:north :lounge
                     :east :corridor
                     :west :corridor2
                     :south :corridor3}
-              :contents #{:pedestal}}
+              :contents #{:controlPanel}}
    :corridor {:desc "You walk in to a corridor. Nothing much but a passageway"
               :title "a passageway that serves its purpose"
               :dir {:west :control
@@ -76,7 +102,7 @@
    :general {:desc "You walk into a room decorated with baroque style with a rustic finish. Beautiful tapestry and paintings uniformly scatter the wall. You are amazed at the splendor that humans are capable of. This is where the leader must reside."
               :title "A beautiful room filled with remnants of the past leaders"
               :dir {:east :corridor3}
-              :contents #{:key}}
+              :contents #{:greenKey}}
    :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk "
               :title "A room full of supplies and storage units"
               :dir {:west :corridor3
@@ -96,7 +122,7 @@
               :dir {:west :hallway
                     :east :prison
                     :south :debriefing}
-              :contents #{}}
+              :contents #{:door}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "A room with cells... and more"
               :dir {:west :gate}
@@ -106,7 +132,7 @@
               :dir {:north :gate
                     :south :pit
                     :east :barracks}
-              :contents #{}}
+              :contents #{:blueKey}}
    :barracks {:desc "You walk into a room filled with many beds, duffel bags, and more. This is where they must've lived you thought. It doesn't look appealing to live here, cramped and sweaty."
               :title "A room with many beds and lost personal belongings"
               :dir {:west :debriefing
