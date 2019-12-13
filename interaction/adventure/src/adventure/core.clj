@@ -101,7 +101,7 @@
               :dir {:east :control
                     :south :trash}
               :contents #{:red-chest}
-              :usableItems #{"redKey"}}
+              :usableItems #{"red-key"}}
    :trash {:desc "You walk into a room, filled with flies and rats. This is where the human waste and perfectly good food go. You vomit, taking 2 damage"
               :title "a room waste the human waste goes"
               :dir {:north :storage}
@@ -117,14 +117,14 @@
    :general {:desc "You walk into a room decorated with baroque style with a rustic finish. Beautiful tapestry and paintings uniformly scatter the wall. You are amazed at the splendor that humans are capable of. This is where the leader must reside."
               :title "a beautiful room filled with remnants of the past leaders"
               :dir {:east :corridor3}
-              :contents #{"greenKey"}
+              :contents #{:green-key}
               :usableItems #{}}
    :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk "
               :title "a room full of supplies and storage units"
               :dir {:west :corridor3
                     :east :chem}
               :contents #{:safe}
-              :usableItems #{:green-key}}
+              :usableItems #{"green-key"}}
    :chem {:desc "You walk into what seems like an old lab. There's broken glass from beakers and burets, literring the ground with shards. You carefully navigate the sharp glass around the room. You bump into a vile full of liquid, and it splashes on you. You take 4 damage from acid. You cry a little bit and leave."
               :title "a room where biological tests are conducted"
               :dir {:west :supplies}
