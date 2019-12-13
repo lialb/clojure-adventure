@@ -129,6 +129,11 @@
               :contents #{}}
    })
 
+(def look [room]
+  (println (init-map room))
+  
+)
+
 (def player
   { :location :foyer
     :inventory #{}
@@ -176,6 +181,7 @@
   ;(printPlayer)
   ;(removeFromInventory "key")
   ;(printPlayer)
+  ;(look :security)
   )
 
 ;(-main)
