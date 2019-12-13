@@ -374,7 +374,8 @@
   
 )
 
-(defn useItem [item]
+(defn useItem [command]
+  (let [item (subs command (count "use "))]
   (cond
     (= (compare item "banana") 0) 
       (do ;(println "banana")
@@ -399,10 +400,8 @@
       ) 
     :else 
     (do 
-      (if (contains? ((init-map (player :location)) :usableItems) item) (useItemSpecific item) (println "rip"))      
-    )
-  )  
-)
+      (if (contains? ((init-map (player :location)) :usableItems) item) (useItemSpecific item) (println "rip")))))) 
+
 (defn quitGame []
   "Exits the game, printing before doing so"
   (do (println "Quitting Game :(")(System/exit 0))
@@ -441,11 +440,12 @@
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
+  (println "directions        : prints your possible directions that you can go")
+  (println "status            : prints out your current status")
   (println "hp                : prints your current hitpoints (hp)")
   (println "look              : prints the description of the room")
-  (println "take <item>       : takes an item in the room")
+  (println "grab <item>       : takes an item in the room")
   (println "use <item>        : uses an item")
-  (println "inventory         : prints out your current inventory")
   (println "tick              : prints out number of moves you have made")
   (println "quit              : quits the game")
   )
@@ -467,6 +467,9 @@
       (starts-with? command "grab ") (grabItem cleanCommand)
       (starts-with? command "quit") (quitGame)
       (starts-with? command "hp") (printHealth)
+      (starts-with? command "directions") (printAvailableDirs (player :location))
+      (starts-with? command "use ") (useItem cleanCommand)
+      
       :else (println (str "I didn't understand: " command)))))
 
 (defn -main
@@ -477,16 +480,19 @@
   ;   (((init-map (player :location)) :dir) :south))
   ;(useItem "redKey")
 
-  (updateLocation "storage")
-  (addToInventory "red-key")
-  (useItem "red-key")
-  (println (init-map (player :location)))
-  (grabItem "grab id")
-  ;(println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
-  ;(loop []
-   ; (print "> ") (flush)
-    ;(parseCommand (read-line))
-    ;(recur))
+  ; (updateLocation "gate")
+  ; (addToInventory "orange-key")
+  ; (useItem "orange-key")
+  ; (println
+  ;   ((init-map :gate)  :usableItems)
+    
+    
+  )
+  (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
+  (loop []
+   (print "> ") (flush)
+    (parseCommand (read-line))
+    (recur))
   )
 
 (-main)
