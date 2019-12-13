@@ -6,6 +6,8 @@
            :name "A surprisingly unrotten banana" }
   :apple {:desc "A red piece of fruit. Looks very edible though"
            :name "An apple" }
+  :orange {:desc "A mandarin orange. It doesn't speak Chinese though."
+           :name "An orange"}
   :redKey {:desc "A crimson key that looks very useful..."
            :name "A red key"}
   :redChest {:desc "A chest that is red in color. May contain something cool... "
@@ -32,121 +34,145 @@
            :title "a drab cell"
            :dir {:south :sauna
                  :east :cafeteria } 
-           :contents #{}}
+           :contents #{}
+           :usableItems #{}}
    :sauna {:desc "You step into the sauana. It is blazingly hot due to climate change. You lose 3 hp"
               :title "a really hot room" :dir {:north :cell}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :cafeteria {:desc "You step into the cafeteria. It's a drab mess hall; rows of tables and benches litter the room. You could almost smell the terrible food that was once served here. Walking along the halls, you see a fridge."
               :title "the cafeteria"
               :dir {:west :cell
                     :south :bathroom
                     :east :armory}
-              :contents #{:banana}}
+              :contents #{:banana}
+              :usableItems #{}}
    :bathroom {:desc "You open the door labelled with the silhouette of a human man. You walk in ... and the stench hits you HARD. You take 3 psychic damage from a horrible stench. You gag uncontrollably"
               :title "a dirty abandoned bathroom"
               :dir {:north :cafeteria}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :armory {:desc "You walk into the armory. On the northern wall, you see weapons that you couldn't possibly identify hanging across the wall. Military grade rifles along with hints of the second amendment."
               :title "your very generic armory filled with weapons"
               :dir {:west :cafeteria
                     :south :lounge
                     :east :hallway}
-              :contents #{:redKey}}
+              :contents #{:redKey}
+              :usableItems #{}}
    :lounge {:desc "You walk into the lounge. You see remnants of the once failed feng shui of mediocrity. Wow, you thought. You probably could've designed this room better."
               :title "a really REALLY boring room"
               :dir {:north :armory
                     :south :control
                     :east :security}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :security {:desc "You walk into a dark room. The lights go on. You see hundreds of monitors displaying CCTV of daily human interaction. Taking steps in, you somehow trip off the old security systems. You see a gatling descend from the ceiling. You receive 5 damage from getting shot. Huh, good thing the gatling gun ran out of bullets."
               :title "a dark room filled with monitors monitoring the daily lives of millions"
               :dir {:west :lounge}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :control {:desc "You walk into a room filled with desks and computers. You walk around, taking note that of a pedestal with a control panel in the very center."
               :title "a room with a lot of controls"
               :dir {:north :lounge
                     :east :corridor
                     :west :corridor2
                     :south :corridor3}
-              :contents #{:controlPanel}}
+              :contents #{:controlPanel}
+              :usableItems #{:ID}}
    :corridor {:desc "You walk in to a corridor. Nothing much but a passageway"
               :title "a passageway that serves its purpose"
               :dir {:west :control
                     :east :pit}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :pit {:desc "You walk into a dark, dark room. You realize there's no floor. You fall. You're dead"
               :title "the always depressing pit filled sadness and death"
               :dir {:west :corridor}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :corridor2 {:desc "a bland corridor that has two entrances, one on each end"
               :title "another hallway"
               :dir {:west :storage
                     :east :control}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :storage {:desc "You look in the room. You see a chest that looks like it should be opened"
               :title "a room full of what could be interesting stuff"
               :dir {:east :control
                     :south :trash}
-              :contents #{:chest}}
+              :contents #{:chest}
+              :usableItems #{:redKey}}
    :trash {:desc "You walk into a room, filled with flies and rats. This is where the human waste and perfectly good food go. You vomit, taking 2 damage"
               :title "a room waste the human waste goes"
               :dir {:north :storage}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :corridor3 {:desc "This is another room that serves its purpose, leading passengers into the next room and beyond."
               :title "the inbetween room that no one cares about"
               :dir {:west :general
                     :east :supplies
                     :north :control}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :general {:desc "You walk into a room decorated with baroque style with a rustic finish. Beautiful tapestry and paintings uniformly scatter the wall. You are amazed at the splendor that humans are capable of. This is where the leader must reside."
               :title "a beautiful room filled with remnants of the past leaders"
               :dir {:east :corridor3}
-              :contents #{:greenKey}}
+              :contents #{:greenKey}
+              :usableItems #{}}
    :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk "
               :title "a room full of supplies and storage units"
               :dir {:west :corridor3
                     :east :chem}
-              :contents #{:safe}}
+              :contents #{:safe}
+              :usableItems #{:greenKey}}
    :chem {:desc "You walk into what seems like an old lab. There's broken glass from beakers and burets, literring the ground with shards. You carefully navigate the sharp glass around the room. You bump into a vile full of liquid, and it splashes on you. You take 4 damage from acid. You cry a little bit and leave."
               :title "a room where biological tests are conducted"
               :dir {:west :supplies}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :hallway {:desc "a long passage with doors into rooms on both sides of it"
               :title "an ordinary hallway"
               :dir {:west :armory
                     :east :gate}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :gate {:desc "You walk into a dimly lit room. There're two doors: a thick looking one, and a normal one that you've seen before."
               :title "a relatively uninteresting room with a gate"
               :dir {:west :hallway
                     :east :prison
                     :south :debriefing}
-              :contents #{:door}}
+              :contents #{:door}
+              :usableItems #{:orangeKey}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "a room with cells... and more"
               :dir {:west :gate}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :debriefing {:desc "You walk in and see a long, long table. This was where"
               :title "the debriefing room"
               :dir {:north :gate
                     :south :pit
                     :east :barracks}
-              :contents #{:blueKey}}
+              :contents #{:blueKey}
+              :usableItems #{}}
    :barracks {:desc "You walk into a room filled with many beds, duffel bags, and more. This is where they must've lived you thought. It doesn't look appealing to live here, cramped and sweaty."
               :title "a room with many beds and lost personal belongings"
               :dir {:west :debriefing
                     :south :vault}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :vault {:desc "You walk into the room and see a big massive steel reinforced door. You can almost smell fresh air..."
               :title "a room that has a big lock"
               :dir {:west :pit
                     :north :barracks
                     :south :helicopter}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    :helicopter {:desc "You have made it to a helicopter pad! You somehow made it this far, and can finally smell the fresh boiling air. You take the helicopter and fly away."
               :title "a helicopter pad"
               :dir {:north :vault}
-              :contents #{}}
+              :contents #{}
+              :usableItems #{}}
    })
 
 (def damagingRooms
@@ -164,6 +190,10 @@
     :hp 10
     :tick 0
     :seen #{}})
+
+(defn printHealth []
+  (println "You have " (player :hp) " hp left")
+)
 
 (defn look []
     (println ((init-map (player :location)) :desc)) 
@@ -273,6 +303,7 @@
 
 (defn helpMenu []
   (println "go <direction>    : changes rooms in the given cardinal direction (north, east, south, west)")
+  (println "hp                : prints your current hitpoints (hp)")
   (println "look              : prints the description of the room")
   (println "take <item>       : takes an item in the room")
   (println "use <item>        : uses an item")
@@ -296,6 +327,7 @@
       (starts-with? command "look") (look)
       (starts-with? command "tick") (printTick)
       (starts-with? command "quit") (quitGame)
+      (starts-with? command "hp") (printHealth)
       :else (println (str "I didn't understand: " command)))))
 
 (defn -main
