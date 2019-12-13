@@ -222,6 +222,7 @@
       (starts-with? command "help") (println "You asked for help!")
       (starts-with? command "status") (printPlayer)
       (starts-with? command "go") (movePlayer cleanCommand)
+      (starts-with? command "look") (look)
       :else (println (str "I didn't understand: " command)))))
 
 (defn -main
