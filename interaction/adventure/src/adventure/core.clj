@@ -158,6 +158,17 @@
   (println (str "Player is currently has " (player :hp) " hp and has " (player :inventory) " in their inventory."))
 )
 
+(defn starts-with?
+  [string substr]
+  (clojure.string/starts-with? (clojure.string/lower-case string) substr))
+
+(defn parseCommand
+  [command]
+  (cond
+    (starts-with? command "help") (println "You asked for help!")
+    :else (println "You didn't ask for help!")))
+
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
@@ -165,6 +176,7 @@
   (printPlayer)
   (reduceHealth 5)
   (addToInventory "key")
+  (parseCommand "help me")
   (printPlayer)
   (removeFromInventory "key")
   (printPlayer)
