@@ -123,7 +123,7 @@
               :title "a room full of supplies and storage units"
               :dir {:west :corridor3
                     :east :chem}
-              :contents #{:safe}
+              :contents #{:green-chest}
               :usableItems #{"green-key"}}
    :chem {:desc "You walk into what seems like an old lab. There's broken glass from beakers and burets, literring the ground with shards. You carefully navigate the sharp glass around the room. You bump into a vile full of liquid, and it splashes on you. You take 4 damage from acid. You cry a little bit and leave."
               :title "a room where biological tests are conducted"
@@ -140,7 +140,7 @@
               :title "a relatively uninteresting room with a gate"
               :dir {:west :hallway
                     :east :prison}
-              :contents #{:door}
+              :contents #{}
               :usableItems #{"orange-key"}}
    :prison {:desc "You walk into the the room full of cells. You see skeletons of humans and extra terrestrial life. Dried blood is splattered around the walls. The remains of creatures scatter the ground. You walk around and notice there's something... fresh. Out of the corner of your eye, you see a big, big alien come out from the shadows growling. You attempt to run, but as you flee you take 3 damage from mauling."
               :title "a room with cells... and more"
@@ -215,7 +215,7 @@
 (defn printItems [room]
   (let [items ((init-map (keyword room)) :contents)]
         (if (not (= (count items) 0))
-          (println (str "You can grab: " (keysToList items))))))
+          (println (str "Items in room: " (keysToList items))))))
 
 (defn printTick []
   (println "You have made " (player :tick) " moves.")
@@ -233,7 +233,7 @@
   "Updates current player location. Also handles all code for what to do when in a new room."
   (def player (update player :location (keyword location) (keyword location))) 
   (printTitle location)
-  (look location)
+  (look)
   (printAvailableDirs location)
   (printItems location)
   (def player (update player :tick inc))
@@ -431,7 +431,7 @@
       ) 
     :else 
     (do 
-      (if (contains? ((init-map (player :location)) :usableItems) item) (useItemSpecific item) (println "rip")))))) 
+      (if (contains? ((init-map (player :location)) :usableItems) item) (useItemSpecific item) (println "You cannot use that item")))))) 
 
 (defn quitGame []
   "Exits the game, printing before doing so"
