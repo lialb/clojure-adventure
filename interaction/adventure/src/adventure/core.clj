@@ -124,7 +124,7 @@
               :dir {:west :corridor3
                     :east :chem}
               :contents #{:safe}
-              :usableItems #{:greenKey}}
+              :usableItems #{"greenKey"}}
    :chem {:desc "You walk into what seems like an old lab. There's broken glass from beakers and burets, literring the ground with shards. You carefully navigate the sharp glass around the room. You bump into a vile full of liquid, and it splashes on you. You take 4 damage from acid. You cry a little bit and leave."
               :title "a room where biological tests are conducted"
               :dir {:west :supplies}
@@ -249,6 +249,56 @@
   (def player (update player :hp + health))
 )
 
+(defn removeItemFromMap [item]
+  (def init-map                    
+    ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
+    (assoc
+      init-map (player :location)
+        (assoc (init-map (player :location)) :usableItems
+        (disj 
+          ((init-map (player :location)) :usableItems) item
+          )
+        )
+    )       
+  )
+)
+
+(defn useItemSpecific [item]
+  (cond 
+    (= (compare item "redkey") 0)
+      (do 
+        (def init-map                    
+          ;(assoc (init-map (player :location) (disj (((init-map (player :location))) :usableItems)) "greenChest"))   
+          (assoc
+            init-map (player :location)
+              (assoc (init-map (player :location)) :usableItems
+              (disj 
+                ((init-map (player :location)) :usableItems) item
+                )
+              )
+          )       
+        )
+
+        (def init-map                    
+          (assoc
+            init-map (player :location)
+              (assoc (init-map (player :location)) :usableItems
+              (conj
+                ((init-map (player :location)) :usableItems) "id"
+                )
+              )
+          )       
+        )
+        (println "The red chest has turned into an ID! You should pick it up!")
+        )
+    (= (compare item "orangeKey") 0)
+      (do)
+    (= (compare item "greenkey") 0)
+      (do)
+  )  
+  
+)
+
 (defn useItem [item]
   (cond
     (= (compare item "banana") 0) 
@@ -272,7 +322,10 @@
           (println "You do not have a orange in your inventory :(")  
           )
       ) 
-    :else (println "rip")
+    :else 
+    (do 
+      (if (contains? ((init-map (player :location)) :usableItems) item) (useItemSpecific item) (println "rip"))      
+    )
   )  
 )
 (defn quitGame []
@@ -336,12 +389,26 @@
   ;(getTitle "sauna")
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
-  ;(useItem "apple1")
-  (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
-  (loop []
-    (print "> ") (flush)
-    (parseCommand (read-line))
-    (recur))
+  ;(useItem "redKey")
+  (println
+    ((init-map :storage)  :usableItems)
+    
+    
+  )
+
+  (updateLocation "storage")
+  (addToInventory "redkey")
+  (useItem "redey")
+  (println
+    ((init-map :storage)  :usableItems)
+    
+    
+  )
+  ;(println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
+  ;(loop []
+   ; (print "> ") (flush)
+    ;(parseCommand (read-line))
+    ;(recur))
   )
 
 (-main)
