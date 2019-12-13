@@ -124,8 +124,8 @@
               :contents #{}}
    })
 
-(def look [room]
-  (println (init-map room))
+(defn look [room]
+  (println ((init-map room) :desc))
   
 )
 
@@ -176,7 +176,7 @@
   ;(printPlayer)
   ;(removeFromInventory "key")
   ;(printPlayer)
-  ;(look :security)
+  (look :security)
   )
 
-;(-main)
+(-main)
