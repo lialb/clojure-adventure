@@ -210,7 +210,7 @@
   (println (str "You can go: " (keysToList (keys ((init-map (keyword room)) :dir))))))
 
 (defn printaAvailableItems [room]
-  (println (str "You can pick up: " ((init-map (keyword room)) :contents))))
+  (println (str "Items in the room: " ((init-map (keyword room)) :contents))))
 
 (defn printItems [room]
   (let [items ((init-map (keyword room)) :contents)]
@@ -233,6 +233,7 @@
   "Updates current player location. Also handles all code for what to do when in a new room."
   (def player (update player :location (keyword location) (keyword location))) 
   (printTitle location)
+  (look location)
   (printAvailableDirs location)
   (printItems location)
   (def player (update player :tick inc))
