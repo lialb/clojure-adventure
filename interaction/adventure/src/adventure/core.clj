@@ -386,9 +386,9 @@
       (def init-map
         (assoc
           init-map (player :location)
-            (assoc (init-map (player :location)) :dir
+            (assoc (init-map :vault) :dir
             (assoc 
-              ((init-map (player :location)) :dir) :south :helicopter
+              ((init-map :vault) :dir) :south :helicopter
               )
             )
         ) 
