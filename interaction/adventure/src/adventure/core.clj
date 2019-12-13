@@ -150,20 +150,11 @@
               :contents #{}}
    })
 
-
-(defn test []
-  (println
-    ((init-map :vault
-    )  :dir)
-    
-    
-  )  
-)
-
 (def player
   { :location :cell
     :inventory #{}
     :hp 10
+    :tick 0
     :seen #{}})
 (defn look []
     (println ((init-map (player :location)) :desc)) 
@@ -175,9 +166,14 @@
   )
 )
 
+(defn printTick []
+  (println "You have made " (player :tick) " moves.")
+)
+
 (defn updateLocation [location]
   (def player (update player :location (keyword location) (keyword location))) 
   (getTitle location)
+  (def player (update player :tick inc))
 )
 (defn reduceHealth [dmg]
   (def player (update player :hp - dmg))
@@ -237,19 +233,20 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (getTitle "sauna")
+  ;(getTitle "sauna")
   ; (println 
   ;   (((init-map (player :location)) :dir) :south))
+  (println "Welcome to our clojure adventure game! Type the command 'help' to get started!")
   (loop []
     ;(println (player :location))
     (parseCommand (read-line))
     (recur))
   ;(println "Hello, World!")
-  (printPlayer)
-  (updateLocation "armory")
-  (printPlayer)
+  ;(printPlayer)
+  ;(updateLocation "armory")
+  ;(printPlayer)
   ;(println (player :location))
-  (look)
+ ; (look)
   ;(reduceHealth 5)
   ;(addToInventory "key")
   ;(parseCommand "help me")
