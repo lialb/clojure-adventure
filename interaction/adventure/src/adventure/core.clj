@@ -52,7 +52,7 @@
               :dir {:north :cafeteria}
               :contents #{}
               :usableItems #{}}
-   :armory {:desc "You walk into the armory. On the northern wall, you see weapons that you couldn't possibly identify hanging across the wall. Military grade rifles along with hints of the second amendment."
+   :armory {:desc "You walk into the armory. On the northern wall, you see weapons that you couldn't possibly identify hanging across the wall. Military grade rifles along with hints of the second amendment. You notice a peculiar looking crimson key."
               :title "your very generic armory filled with weapons"
               :dir {:west :cafeteria
                     :south :lounge
@@ -119,7 +119,7 @@
               :dir {:east :corridor3}
               :contents #{:green-key}
               :usableItems #{}}
-   :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk "
+   :supplies {:desc "You walk into a room filled with cabinets, supplies, and old cigarette butts. Papers are scattered everywhere. You walk around looking for something interesting. Out of the corner of your eye you see a green chest. Huh. Wonder what that could be used for"
               :title "a room full of supplies and storage units"
               :dir {:west :corridor3
                     :east :chem}
@@ -136,7 +136,7 @@
                     :east :gate}
               :contents #{}
               :usableItems #{}}
-   :gate {:desc "You walk into a dimly lit room. There're two doors: a thick looking one, and a normal one that you've seen before."
+   :gate {:desc "You walk into a dimly lit room. There're two doors: a thick orange looking one facing south, and a regular door to the east."
               :title "a relatively uninteresting room with a gate"
               :dir {:west :hallway
                     :east :prison}
@@ -147,7 +147,7 @@
               :dir {:west :gate}
               :contents #{}
               :usableItems #{}}
-   :debriefing {:desc "You walk in and see a long, long table. This was where"
+   :debriefing {:desc "You walk in and see a long, long table. This was where they had their meetings it seems."
               :title "the debriefing room"
               :dir {:north :gate
                     :south :pit
@@ -160,13 +160,13 @@
                     :south :vault}
               :contents #{}
               :usableItems #{}}
-   :vault {:desc "You walk into the room and see a big massive steel reinforced door. You can almost smell fresh air..."
+   :vault {:desc "You walk into the room and see a big massive steel reinforced door facing south. You can almost smell fresh air..."
               :title "a room that has a big lock"
               :dir {:west :pit
                     :north :barracks}
               :contents #{}
               :usableItems #{}}
-   :helicopter {:desc "You have made it to a helicopter pad! You somehow made it this far, and can finally smell the fresh boiling air. You take the helicopter and fly away."
+   :helicopter {:desc "You have made it to a helicopter pad! You somehow made it this far, and can finally smell the fresh boiling air (thank you global warming). You take the helicopter and fly away."
               :title "a helicopter pad"
               :dir {:north :vault}
               :contents #{}
@@ -249,6 +249,16 @@
     (assoc player :inventory (disj (player :inventory) item))
     )
 )
+
+; (defn removeItem [item]
+;   (def init-map
+;     (assoc (init-map (player:location)) :contents
+;         (disj 
+;           ((init-map (player :location)) :contents) item
+;           )
+;         )
+;     )
+; )
 
 (defn restoreHealth [health]
   "increases health by health amount"
@@ -501,6 +511,7 @@
       (starts-with? command "look") (look)
       (starts-with? command "tick") (printTick)
       (starts-with? command "grab ") (grabItem cleanCommand)
+      (starts-with? command "take ") (grabItem cleanCommand)
       (starts-with? command "quit") (quitGame)
       (starts-with? command "hp") (printHealth)
       (starts-with? command "directions") (printAvailableDirs (player :location))
