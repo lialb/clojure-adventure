@@ -448,6 +448,15 @@
   (do (println "Quitting Game :(") (System/exit 0))
 )
 
+(defn removeItemFromRoom [item]
+  (let [room (player :location)]
+    (def init-map (assoc-in 
+                    init-map[room :usableItems]
+                    (disj ((init-map room) :usableItems) item)))
+    (def init-map (assoc-in
+                    init-map[room :contents]
+                    (disj ((init-map room) :contents) (keyword item))))))
+
 
 (defn addToInventory [item]
   "Adds the string item to the player inventory"
@@ -480,7 +489,7 @@
           (= (compare item "control-panel") 0) (println "The control panel is bolted to the floor. Maybe you should use something here.")
           :else 
           (if (contains? ((init-map (player :location)) :contents) (keyword item))
-            (do (println (str "You grabbed " item)) (addToInventory item))
+            (do (println (str "You grabbed " item)) (addToInventory item) (removeItemFromRoom item))
             (println (str "You can't grab " item))))))
 
 (defn helpMenu []
@@ -538,7 +547,6 @@
   ;   ((init-map :gate)  :usableItems)
     
     
-  )
   (println "Welcome to our clojure adventure game!\n\nYou are in " ((init-map (player :location)) :title)"\n\n" ((init-map (player :location)) :desc) "\n\nType the command 'help' to get started!")
   (loop []
    (print "> ") (flush)
